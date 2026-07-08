@@ -22,23 +22,23 @@
   html, body {
     margin: 0; padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", sans-serif;
-    background: linear-gradient(180deg, var(--navy) 0%, var(--navy) 220px, var(--bg) 220px, var(--bg) 100%);
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy) 190px, var(--bg) 190px, var(--bg) 100%);
     color: var(--ink);
     min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
   }
   .wrap { max-width: 480px; margin: 0 auto; padding: 20px 18px 60px; min-height: 100vh; }
   .topbar { color: #fff; padding-top: 10px; text-align: center; }
   .topbar .eyebrow { font-size: 13px; letter-spacing: 1px; color: var(--mint); font-weight: 700; margin-bottom: 6px; }
-  .topbar h1 { font-size: 24px; margin: 0 0 4px; }
-  .topbar p { font-size: 13px; color: #CADCFC; margin: 0; }
-  .progress-track { height: 8px; background: rgba(255,255,255,0.25); border-radius: 999px; margin: 18px 0 0; overflow: hidden; }
+  .topbar h1 { font-size: 23px; margin: 0 0 4px; }
+  .topbar p { font-size: 12.5px; color: #CADCFC; margin: 0; }
+  .progress-track { height: 8px; background: rgba(255,255,255,0.25); border-radius: 999px; margin: 16px 0 0; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--mint); border-radius: 999px; transition: width 0.35s ease; width: 0%; }
-  .card { background: var(--card-bg); border-radius: 18px; box-shadow: 0 8px 24px rgba(20,40,60,0.10); padding: 26px 22px; margin-top: -70px; position: relative; z-index: 2; }
+  .card { background: var(--card-bg); border-radius: 18px; box-shadow: 0 8px 24px rgba(20,40,60,0.10); padding: 24px 20px; margin-top: 18px; position: relative; z-index: 2; }
   .screen { display: none; }
   .screen.active { display: block; }
 
   /* Intro */
-  #screen-intro .card { margin-top: 26px; text-align: center; }
   #screen-intro h2 { font-size: 19px; margin: 0 0 10px; }
   #screen-intro p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 20px; }
   .axis-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
@@ -47,26 +47,32 @@
   .rule-list { text-align: left; margin: 0 0 24px; padding: 0; list-style: none; }
   .rule-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--ink); margin-bottom: 12px; line-height: 1.5; }
   .rule-list li .dot { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--mint); color: var(--navy); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; }
-  .btn { display: block; width: 100%; border: none; border-radius: 12px; background: var(--teal); color: #fff; font-size: 16px; font-weight: 700; padding: 15px; cursor: pointer; transition: transform 0.1s ease, background 0.2s; }
+  .btn { display: block; width: 100%; border: none; border-radius: 12px; background: var(--teal); color: #fff; font-size: 16px; font-weight: 700; padding: 16px; cursor: pointer; transition: transform 0.1s ease, background 0.2s; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
   .btn:active { transform: scale(0.98); }
   .btn.ghost { background: transparent; color: var(--teal); border: 2px solid var(--teal); margin-top: 10px; }
 
   /* Question */
   .q-tag { display: inline-block; font-size: 12px; font-weight: 700; color: #fff; background: var(--teal); padding: 4px 10px; border-radius: 999px; margin-bottom: 14px; }
   .q-axis-label { display: inline-block; font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 14px; margin-left: 6px; }
-  .q-text { font-size: 19px; font-weight: 700; line-height: 1.4; margin: 0 0 20px; }
-  .option { display: block; width: 100%; text-align: left; border: 2px solid #E3EDEC; background: #FBFDFD; border-radius: 14px; padding: 16px 16px; margin-bottom: 12px; font-size: 15.5px; line-height: 1.45; color: var(--ink); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .q-text { font-size: 20px; font-weight: 700; line-height: 1.4; margin: 0 0 20px; }
+  .option { display: block; width: 100%; text-align: left; border: 2px solid #E3EDEC; background: #FBFDFD; border-radius: 14px; padding: 18px 16px; margin-bottom: 12px; font-size: 16px; line-height: 1.45; color: var(--ink); cursor: pointer; transition: border-color 0.15s, background 0.15s; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
   .option:active { background: #E6F5F3; border-color: var(--teal); }
   .option b { color: var(--teal); margin-right: 6px; }
 
   /* Result */
   #screen-result .type-badge { display: inline-block; padding: 6px 16px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }
-  #screen-result h2 { font-size: 23px; margin: 0 0 6px; }
+  #screen-result h2 { font-size: 22px; margin: 0 0 6px; }
   #screen-result .tagline { font-size: 13.5px; font-weight: 700; color: var(--muted); margin: 0 0 16px; font-style: italic; }
-  #screen-result .desc { font-size: 14.5px; color: var(--ink); line-height: 1.6; margin: 0 0 10px; }
+  #screen-result .desc { font-size: 14.5px; color: var(--ink); line-height: 1.65; margin: 0 0 10px; }
   .flavor-box { background: #F0F7F6; border-radius: 14px; padding: 16px; margin-bottom: 18px; }
   .flavor-box h3 { font-size: 13.5px; margin: 0 0 6px; color: var(--teal); }
-  .flavor-box p { font-size: 13.5px; color: var(--ink); margin: 0; line-height: 1.55; }
+  .flavor-box p { font-size: 13.5px; color: var(--ink); margin: 0; line-height: 1.6; }
+  .compat-box { background: #FFF3D6; border-radius: 14px; padding: 16px; margin-bottom: 18px; }
+  .compat-box h3 { font-size: 13.5px; margin: 0 0 8px; color: #8A6414; }
+  .compat-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .compat-badge { display: inline-block; padding: 4px 12px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 13px; }
+  .compat-name { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .compat-box p { font-size: 13px; color: #6B5416; margin: 0; line-height: 1.55; }
   .axis-bars { margin-bottom: 18px; }
   .axis-bar-row { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
   .axis-bar-row .lbl { flex: none; width: 74px; text-align: right; font-weight: 700; }
@@ -101,8 +107,8 @@
       <div class="axis-preview">
         <div class="axis-chip">대상<br><span class="vs">사람 P · 환경 E</span></div>
         <div class="axis-chip">방식<br><span class="vs">행동 A · 기획 T</span></div>
-        <div class="axis-chip">몰입<br><span class="vs">헌신 D · 다양 V</span></div>
-        <div class="axis-chip">결<br><span class="vs">개인 I · 함께 G</span></div>
+        <div class="axis-chip">리듬<br><span class="vs">꾸준형 D · 탐험형 V</span></div>
+        <div class="axis-chip">에너지<br><span class="vs">조용형 I · 왁자지껄형 G</span></div>
       </div>
       <ul class="rule-list">
         <li><span class="dot">1</span> 질문마다 두 가지 중 더 끌리는 것을 하나만 선택하세요.</li>
@@ -127,14 +133,23 @@
     <div class="card">
       <span class="type-badge" id="result-badge">PADI</span>
       <h2 id="result-name">묵묵한 동행형</h2>
-      <p class="tagline" id="result-tagline">"꾸준하고 조용하게, 사람 곁에서 몸으로"</p>
+      <p class="tagline" id="result-tagline">"꾸준하게 조용히, 사람 곁에서 몸으로"</p>
 
       <div class="axis-bars" id="axis-bars"></div>
 
       <p class="desc" id="result-desc">설명</p>
       <div class="flavor-box">
-        <h3>나의 몰입·결 성향</h3>
+        <h3>나의 리듬 · 에너지</h3>
         <p id="result-mod-desc"></p>
+      </div>
+
+      <div class="compat-box">
+        <h3>🍀 나와 잘 맞는 유형 (재미로 보기)</h3>
+        <div class="compat-row">
+          <span class="compat-badge" id="compat-badge">PAVG</span>
+          <span class="compat-name" id="compat-name">발랄한 동행형</span>
+        </div>
+        <p id="compat-desc"></p>
       </div>
 
       <div class="section-label">추천 봉사활동</div>
@@ -153,8 +168,8 @@
 // ================= Data =================
 // Axis 1: P(사람과 함께) vs E(사물·환경과 함께)
 // Axis 2: A(몸으로 행동) vs T(아이디어·기획)
-// Axis 3: D(헌신 - 꾸준히 깊게) vs V(다양 - 그때그때 폭넓게)
-// Axis 4: I(개인 - 차분히 혼자) vs G(함께 - 왁자지껄 여럿이)
+// Axis 3: D(꾸준형 - 오래 깊게) vs V(탐험형 - 새롭게 다양하게)
+// Axis 4: I(조용형 - 차분히 혼자) vs G(왁자지껄형 - 여럿이 함께)
 
 const QUESTION_BANK = [
   { axis: 1, label: "대상",
@@ -187,69 +202,72 @@ const QUESTION_BANK = [
       { cat: "A", text: "물건을 나르고 현장을 정리하기" },
       { cat: "T", text: "행사를 기획하고 홍보 문구 만들기" },
     ]},
-  { axis: 3, label: "몰입",
+  { axis: 3, label: "리듬",
     opts: [
       { cat: "D", text: "한 곳에서 학기 내내 꾸준히 이어가고 싶다" },
       { cat: "V", text: "여러 곳을 다니며 다양하게 경험해보고 싶다" },
     ]},
-  { axis: 3, label: "몰입",
+  { axis: 3, label: "리듬",
     opts: [
       { cat: "D", text: "지금 하던 걸 계속 이어가는 게 좋다" },
       { cat: "V", text: "새로운 활동이 있으면 바로 해보고 싶다" },
     ]},
-  { axis: 3, label: "몰입",
+  { axis: 3, label: "리듬",
     opts: [
       { cat: "D", text: "오랫동안 지켜본 대상이 변화하는 걸 볼 때 뿌듯하다" },
       { cat: "V", text: "짧은 시간 안에 눈에 띄는 결과를 만들 때 뿌듯하다" },
     ]},
-  { axis: 4, label: "결",
+  { axis: 4, label: "에너지",
     opts: [
       { cat: "I", text: "혼자 차분히 집중해서 하는 게 편하다" },
       { cat: "G", text: "여러 명이 왁자지껄 함께 하는 게 편하다" },
     ]},
-  { axis: 4, label: "결",
+  { axis: 4, label: "에너지",
     opts: [
       { cat: "I", text: "내 몫을 조용히 완성해서 전달하는 편이다" },
       { cat: "G", text: "다같이 모여 의논하며 진행하는 게 좋다" },
     ]},
-  { axis: 4, label: "결",
+  { axis: 4, label: "에너지",
     opts: [
       { cat: "I", text: "쉬는 시간엔 혼자 조용히 쉬는 편이다" },
       { cat: "G", text: "쉬는 시간엔 친구들과 어울리는 편이다" },
     ]},
 ];
 
-const AXIS_LABELS = {
-  P: "사람과 함께", E: "사물·환경과 함께",
-  A: "몸으로 행동", T: "아이디어·기획",
-  D: "헌신 (꾸준히)", V: "다양 (폭넓게)",
-  I: "개인 (혼자)", G: "함께 (여럿이)",
-};
-
 const BASE = {
-  PA: { noun: "동행형", desc: "사람 곁에서 직접 몸으로 함께하는 것을 좋아해요. 누군가와 함께 있는 시간 자체가 나에게 의미가 돼요.",
+  PA: { noun: "동행형",
+        desc: "사람 곁에 있을 때 가장 나다워지는 편이에요. 화려하게 드러나진 않아도, 누군가에게는 가장 든든한 존재가 되어주고 있어요. 함께한 시간이 쌓일수록 그 사람에게 특별한 존재가 되는, 은근히 정 많은 타입이에요.",
         recs: [{t:"등하교 안전도우미", solo:false}, {t:"급식 도우미", solo:false}, {t:"또래 멘토링", solo:true}, {t:"경로당 말벗 봉사", solo:true}] },
-  PT: { noun: "기획자형", desc: "사람을 위한 아이디어와 프로그램을 만드는 것을 좋아해요. 누군가에게 도움이 될 무언가를 구상할 때 몰입해요.",
+  PT: { noun: "기획자형",
+        desc: "머릿속에서 아이디어가 반짝 떠오르면 가만히 있지 못하는 편이에요. 누군가를 웃게 하거나 도울 방법을 궁리할 때 가장 몰입해요. 티는 안 나도, 뒤에서 판을 짜는 진짜 설계자예요.",
         recs: [{t:"카드뉴스·홍보물 제작", solo:true}, {t:"재능기부 프로그램 설계", solo:true}, {t:"캠페인 기획", solo:false}, {t:"학급 행사 기획", solo:false}] },
-  EA: { noun: "실천가형", desc: "몸으로 움직여 환경과 공간을 바꾸는 것을 좋아해요. 눈에 보이게 달라지는 걸 만들 때 뿌듯함을 느껴요.",
+  EA: { noun: "실천가형",
+        desc: "말보다 행동이 먼저 나가는 편이에요. 무언가 눈에 띄게 달라지는 걸 보면 뿌듯함을 느끼고, 몸을 움직이는 동안 오히려 머리가 맑아져요. 겉으로는 무심해 보여도 은근히 성실한 스타일이에요.",
         recs: [{t:"학교 텃밭 가꾸기", solo:true}, {t:"분리수거 도우미", solo:true}, {t:"환경정화 활동", solo:false}, {t:"유기동물 보호소 봉사", solo:false}] },
-  ET: { noun: "해결사형", desc: "자료를 정리하고 아이디어로 문제를 해결하는 것을 좋아해요. 복잡한 것을 정돈했을 때 만족감을 느껴요.",
+  ET: { noun: "해결사형",
+        desc: "복잡하게 얽힌 걸 보면 손이 근질근질한 편이에요. 남들이 놓친 디테일을 잘 챙기고, 문제를 하나씩 정리해나갈 때 묘한 쾌감을 느껴요. 조용한 것 같아도 머릿속은 늘 바쁘게 돌아가는 타입이에요.",
         recs: [{t:"도서관 정리 도우미", solo:true}, {t:"자료 정리 봉사", solo:true}, {t:"재활용 캠페인 포스터 제작", solo:false}, {t:"환경 캠페인 기획", solo:false}] },
 };
 
 const MOD = {
-  DI: { prefix: "묵묵한", desc: "한 가지를 꾸준히, 조용히 파고드는 편이에요. 티내지 않아도 은근히 책임감이 강한 스타일이에요." },
-  DG: { prefix: "다정한", desc: "사람들과 함께 오래도록 마음을 나누는 걸 좋아해요. 관계가 쌓일수록 더 잘하는 타입이에요." },
-  VI: { prefix: "야무진", desc: "혼자서도 빠르고 야무지게 해내는 편이에요. 필요한 순간 스스로 판단해서 움직여요." },
-  VG: { prefix: "발랄한", desc: "여러 사람과 왁자지껄 어울리며 다양한 걸 시도하는 걸 좋아해요. 에너지가 넘치는 편이에요." },
+  DI: { prefix: "묵묵한",
+        desc: "겉으로는 나서지 않아서 잘 몰라볼 수도 있지만, 한번 마음먹은 일은 끝까지 해내는 편이에요. 혼자 있는 시간에 오히려 생각이 잘 정리되고, 신뢰는 소리 소문 없이 차곡차곡 쌓아가는 타입이에요. 사람들은 나중에서야 '얘가 이렇게 꾸준했구나' 하고 알아차리곤 해요." },
+  DG: { prefix: "다정한",
+        desc: "사람들과 오래 함께하는 관계에서 진짜 힘을 얻는 편이에요. 처음엔 낯가릴 수 있어도, 한번 마음을 연 사이는 오래도록 챙기는 의리파예요. 왁자지껄한 분위기 속에서도 은근히 주변을 살피고 있는, 정 많은 스타일이에요." },
+  VI: { prefix: "야무진",
+        desc: "새로운 걸 시도할 때 가장 반짝이는 편이에요. 혼자서도 빠르게 판단하고 움직이는 걸 좋아해서, 굳이 말하지 않아도 알아서 척척 해내는 모습에 주변이 놀랄 때가 많아요. 다만 같은 걸 오래 반복하면 금방 지루해하는 편이에요." },
+  VG: { prefix: "발랄한",
+        desc: "에너지가 넘쳐서 가만히 있질 못하는 편이에요. 새로운 사람, 새로운 활동을 만나면 눈이 반짝이고, 그 분위기를 순식간에 즐거운 무드로 바꿔놓는 재주가 있어요. 다양한 사람들과 어울리며 배우는 걸 좋아해요." },
 };
 
 const TAGLINE_PART = {
-  D: "꾸준하게", V: "발빠르게",
-  I: "조용히", G: "함께",
+  D: "꾸준하게", V: "탐험하듯",
+  I: "조용히", G: "왁자지껄하게",
   P: "사람 곁에서", E: "현장에서",
   A: "몸으로", T: "머리로",
 };
+
+const COMPAT_LINE = "나와 같은 것을 좋아하지만, 정반대의 매력을 가진 짝꿍이에요. 함께 활동하면 서로 부족한 부분을 자연스럽게 채워줄 수 있어요.";
 
 // ================= State =================
 let order = [];
@@ -318,6 +336,12 @@ function axisBarRow(leftLabel, rightLabel, leftScore, rightScore) {
   </div>`;
 }
 
+function flipMod(modCode) {
+  const d = modCode[0] === "D" ? "V" : "D";
+  const g = modCode[1] === "I" ? "G" : "I";
+  return d + g;
+}
+
 function showResult() {
   const axis1 = scores.P >= scores.E ? "P" : "E";
   const axis2 = scores.A >= scores.T ? "A" : "T";
@@ -338,11 +362,20 @@ function showResult() {
   document.getElementById("result-desc").textContent = base.desc;
   document.getElementById("result-mod-desc").textContent = mod.desc;
 
+  // compatible type: same base, flipped rhythm/energy
+  const compatModCode = flipMod(modCode);
+  const compatFullCode = baseCode + compatModCode;
+  const compatMod = MOD[compatModCode];
+  document.getElementById("compat-badge").textContent = compatFullCode;
+  document.getElementById("compat-badge").style.background = "#E0A106";
+  document.getElementById("compat-name").textContent = compatMod.prefix + " " + base.noun;
+  document.getElementById("compat-desc").textContent = COMPAT_LINE;
+
   document.getElementById("axis-bars").innerHTML =
     axisBarRow("사람 P", "환경 E", scores.P, scores.E) +
     axisBarRow("행동 A", "기획 T", scores.A, scores.T) +
-    axisBarRow("헌신 D", "다양 V", scores.D, scores.V) +
-    axisBarRow("개인 I", "함께 G", scores.I, scores.G);
+    axisBarRow("꾸준 D", "탐험 V", scores.D, scores.V) +
+    axisBarRow("조용 I", "왁자 G", scores.I, scores.G);
 
   const recWrap = document.getElementById("result-recs");
   recWrap.innerHTML = "";
@@ -374,6 +407,7 @@ function restart() {
 function showScreen(id) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   document.getElementById(id).classList.add("active");
+  window.scrollTo(0, 0);
 }
 </script>
 </body>
