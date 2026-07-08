@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>나의 봉사유형 찾기</title>
+<style>
+  :root {
+    --teal: #028090;
+    --seafoam: #00A896;
+    --mint: #02C39A;
+    --navy: #1E2761;
+    --ink: #16324F;
+    --muted: #5B7285;
+    --bg: #F4F8F8;
+    --card-bg: #FFFFFF;
+    --coral: #EE6C4D;
+    --purple: #5E60CE;
+    --amber: #E0A106;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Malgun Gothic", "맑은 고딕", sans-serif;
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy) 220px, var(--bg) 220px, var(--bg) 100%);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 20px 18px 60px; min-height: 100vh; }
+  .topbar { color: #fff; padding-top: 10px; text-align: center; }
+  .topbar .eyebrow { font-size: 13px; letter-spacing: 1px; color: var(--mint); font-weight: 700; margin-bottom: 6px; }
+  .topbar h1 { font-size: 24px; margin: 0 0 4px; }
+  .topbar p { font-size: 13px; color: #CADCFC; margin: 0; }
+  .progress-track { height: 8px; background: rgba(255,255,255,0.25); border-radius: 999px; margin: 18px 0 0; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--mint); border-radius: 999px; transition: width 0.35s ease; width: 0%; }
+  .card { background: var(--card-bg); border-radius: 18px; box-shadow: 0 8px 24px rgba(20,40,60,0.10); padding: 26px 22px; margin-top: -70px; position: relative; z-index: 2; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* Intro */
+  #screen-intro .card { margin-top: 26px; text-align: center; }
+  #screen-intro h2 { font-size: 19px; margin: 0 0 10px; }
+  #screen-intro p { font-size: 14px; color: var(--muted); line-height: 1.6; margin: 0 0 20px; }
+  .axis-preview { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+  .axis-chip { background: #F0F7F6; border-radius: 10px; padding: 10px 8px; font-size: 12px; color: var(--ink); font-weight: 600; }
+  .axis-chip .vs { color: var(--muted); font-weight: 400; font-size: 11px; }
+  .rule-list { text-align: left; margin: 0 0 24px; padding: 0; list-style: none; }
+  .rule-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--ink); margin-bottom: 12px; line-height: 1.5; }
+  .rule-list li .dot { flex: none; width: 22px; height: 22px; border-radius: 50%; background: var(--mint); color: var(--navy); font-weight: 700; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+  .btn { display: block; width: 100%; border: none; border-radius: 12px; background: var(--teal); color: #fff; font-size: 16px; font-weight: 700; padding: 15px; cursor: pointer; transition: transform 0.1s ease, background 0.2s; }
+  .btn:active { transform: scale(0.98); }
+  .btn.ghost { background: transparent; color: var(--teal); border: 2px solid var(--teal); margin-top: 10px; }
+
+  /* Question */
+  .q-tag { display: inline-block; font-size: 12px; font-weight: 700; color: #fff; background: var(--teal); padding: 4px 10px; border-radius: 999px; margin-bottom: 14px; }
+  .q-axis-label { display: inline-block; font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 14px; margin-left: 6px; }
+  .q-text { font-size: 19px; font-weight: 700; line-height: 1.4; margin: 0 0 20px; }
+  .option { display: block; width: 100%; text-align: left; border: 2px solid #E3EDEC; background: #FBFDFD; border-radius: 14px; padding: 16px 16px; margin-bottom: 12px; font-size: 15.5px; line-height: 1.45; color: var(--ink); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+  .option:active { background: #E6F5F3; border-color: var(--teal); }
+  .option b { color: var(--teal); margin-right: 6px; }
+
+  /* Result */
+  #screen-result .type-badge { display: inline-block; padding: 6px 16px; border-radius: 999px; color: #fff; font-weight: 700; font-size: 14px; margin-bottom: 10px; letter-spacing: 1px; }
+  #screen-result h2 { font-size: 23px; margin: 0 0 6px; }
+  #screen-result .tagline { font-size: 13.5px; font-weight: 700; color: var(--muted); margin: 0 0 16px; font-style: italic; }
+  #screen-result .desc { font-size: 14.5px; color: var(--ink); line-height: 1.6; margin: 0 0 10px; }
+  .flavor-box { background: #F0F7F6; border-radius: 14px; padding: 16px; margin-bottom: 18px; }
+  .flavor-box h3 { font-size: 13.5px; margin: 0 0 6px; color: var(--teal); }
+  .flavor-box p { font-size: 13.5px; color: var(--ink); margin: 0; line-height: 1.55; }
+  .axis-bars { margin-bottom: 18px; }
+  .axis-bar-row { display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--muted); margin-bottom: 8px; }
+  .axis-bar-row .lbl { flex: none; width: 74px; text-align: right; font-weight: 700; }
+  .axis-bar-row .lbl.right { text-align: left; }
+  .axis-bar-track { flex: 1; height: 8px; background: #E9F1F0; border-radius: 999px; overflow: hidden; position: relative; }
+  .axis-bar-fill { position: absolute; top: 0; bottom: 0; background: var(--seafoam); border-radius: 999px; }
+  .rec-list { margin: 4px 0 22px; padding: 0; list-style: none; }
+  .rec-list li { font-size: 14px; padding: 10px 0; border-bottom: 1px solid #EEF3F3; display: flex; align-items: center; gap: 8px; }
+  .rec-list li:last-child { border-bottom: none; }
+  .rec-list .tag { font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; flex: none; }
+  .rec-list .tag.solo { background: #E6F5F3; color: var(--teal); }
+  .rec-list .tag.group { background: #FDEEE8; color: var(--coral); }
+  .section-label { font-size: 13px; font-weight: 700; color: var(--muted); margin: 22px 0 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .save-hint { background: #FFF7E6; border-radius: 12px; padding: 14px 16px; font-size: 13.5px; color: #7A5B10; margin-bottom: 20px; line-height: 1.5; }
+  footer.foot { text-align: center; color: #9FB4C7; font-size: 11.5px; margin-top: 22px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="eyebrow">2026 여름방학 봉사활동 사전 안내</div>
+    <h1>나의 봉사유형 찾기</h1>
+    <p id="topbar-sub">4가지 성향 × 12개 질문으로 알아보는 나만의 봉사 코드</p>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <!-- Intro -->
+  <div class="screen active" id="screen-intro">
+    <div class="card">
+      <h2>시작하기 전에</h2>
+      <p>정답은 없어요. 더 끌리는 것을 직관적으로 골라보세요. MBTI처럼 4가지 성향을 조합해서 16가지 유형 중 나의 유형을 찾아드려요.</p>
+      <div class="axis-preview">
+        <div class="axis-chip">대상<br><span class="vs">사람 P · 환경 E</span></div>
+        <div class="axis-chip">방식<br><span class="vs">행동 A · 기획 T</span></div>
+        <div class="axis-chip">몰입<br><span class="vs">헌신 D · 다양 V</span></div>
+        <div class="axis-chip">결<br><span class="vs">개인 I · 함께 G</span></div>
+      </div>
+      <ul class="rule-list">
+        <li><span class="dot">1</span> 질문마다 두 가지 중 더 끌리는 것을 하나만 선택하세요.</li>
+        <li><span class="dot">2</span> 총 12개의 질문이고, 2분이면 끝나요.</li>
+        <li><span class="dot">3</span> 결과가 나오면 활동지에 나의 유형 코드를 적어주세요.</li>
+      </ul>
+      <button class="btn" onclick="startTest()">테스트 시작하기</button>
+    </div>
+  </div>
+
+  <!-- Question -->
+  <div class="screen" id="screen-question">
+    <div class="card">
+      <span class="q-tag" id="q-tag">Q1 / 12</span><span class="q-axis-label" id="q-axis-label"></span>
+      <p class="q-text" id="q-text">질문 내용</p>
+      <div id="q-options"></div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="screen" id="screen-result">
+    <div class="card">
+      <span class="type-badge" id="result-badge">PADI</span>
+      <h2 id="result-name">묵묵한 동행형</h2>
+      <p class="tagline" id="result-tagline">"꾸준하고 조용하게, 사람 곁에서 몸으로"</p>
+
+      <div class="axis-bars" id="axis-bars"></div>
+
+      <p class="desc" id="result-desc">설명</p>
+      <div class="flavor-box">
+        <h3>나의 몰입·결 성향</h3>
+        <p id="result-mod-desc"></p>
+      </div>
+
+      <div class="section-label">추천 봉사활동</div>
+      <ul class="rec-list" id="result-recs"></ul>
+
+      <div class="save-hint">📝 이 화면을 캡처하거나 기억해서, 활동지에 나의 유형 코드(예: PADI · 묵묵한 동행형)를 적어주세요.</div>
+
+      <button class="btn ghost" onclick="restart()">처음부터 다시하기</button>
+    </div>
+  </div>
+
+  <footer class="foot">대영중학교 창의인성부</footer>
+</div>
+
+<script>
+// ================= Data =================
+// Axis 1: P(사람과 함께) vs E(사물·환경과 함께)
+// Axis 2: A(몸으로 행동) vs T(아이디어·기획)
+// Axis 3: D(헌신 - 꾸준히 깊게) vs V(다양 - 그때그때 폭넓게)
+// Axis 4: I(개인 - 차분히 혼자) vs G(함께 - 왁자지껄 여럿이)
+
+const QUESTION_BANK = [
+  { axis: 1, label: "대상",
+    opts: [
+      { cat: "P", text: "어르신들과 이야기 나누며 말벗이 되어드리기" },
+      { cat: "E", text: "공원 화단을 정리하고 꽃 심기" },
+    ]},
+  { axis: 1, label: "대상",
+    opts: [
+      { cat: "P", text: "후배에게 공부를 알려주는 멘토링 하기" },
+      { cat: "E", text: "학교 곳곳 분리수거함 정리하기" },
+    ]},
+  { axis: 1, label: "대상",
+    opts: [
+      { cat: "P", text: "다문화 친구와 짝이 되어 함께 활동하기" },
+      { cat: "E", text: "유기동물 보호소에서 청소하고 밥 주기" },
+    ]},
+  { axis: 2, label: "방식",
+    opts: [
+      { cat: "A", text: "직접 몸으로 움직이며 돕는 게 좋다" },
+      { cat: "T", text: "아이디어를 내고 계획을 짜는 게 좋다" },
+    ]},
+  { axis: 2, label: "방식",
+    opts: [
+      { cat: "A", text: "현장에서 피켓을 들고 직접 홍보하기" },
+      { cat: "T", text: "캠페인 포스터나 카드뉴스 디자인하기" },
+    ]},
+  { axis: 2, label: "방식",
+    opts: [
+      { cat: "A", text: "물건을 나르고 현장을 정리하기" },
+      { cat: "T", text: "행사를 기획하고 홍보 문구 만들기" },
+    ]},
+  { axis: 3, label: "몰입",
+    opts: [
+      { cat: "D", text: "한 곳에서 학기 내내 꾸준히 이어가고 싶다" },
+      { cat: "V", text: "여러 곳을 다니며 다양하게 경험해보고 싶다" },
+    ]},
+  { axis: 3, label: "몰입",
+    opts: [
+      { cat: "D", text: "지금 하던 걸 계속 이어가는 게 좋다" },
+      { cat: "V", text: "새로운 활동이 있으면 바로 해보고 싶다" },
+    ]},
+  { axis: 3, label: "몰입",
+    opts: [
+      { cat: "D", text: "오랫동안 지켜본 대상이 변화하는 걸 볼 때 뿌듯하다" },
+      { cat: "V", text: "짧은 시간 안에 눈에 띄는 결과를 만들 때 뿌듯하다" },
+    ]},
+  { axis: 4, label: "결",
+    opts: [
+      { cat: "I", text: "혼자 차분히 집중해서 하는 게 편하다" },
+      { cat: "G", text: "여러 명이 왁자지껄 함께 하는 게 편하다" },
+    ]},
+  { axis: 4, label: "결",
+    opts: [
+      { cat: "I", text: "내 몫을 조용히 완성해서 전달하는 편이다" },
+      { cat: "G", text: "다같이 모여 의논하며 진행하는 게 좋다" },
+    ]},
+  { axis: 4, label: "결",
+    opts: [
+      { cat: "I", text: "쉬는 시간엔 혼자 조용히 쉬는 편이다" },
+      { cat: "G", text: "쉬는 시간엔 친구들과 어울리는 편이다" },
+    ]},
+];
+
+const AXIS_LABELS = {
+  P: "사람과 함께", E: "사물·환경과 함께",
+  A: "몸으로 행동", T: "아이디어·기획",
+  D: "헌신 (꾸준히)", V: "다양 (폭넓게)",
+  I: "개인 (혼자)", G: "함께 (여럿이)",
+};
+
+const BASE = {
+  PA: { noun: "동행형", desc: "사람 곁에서 직접 몸으로 함께하는 것을 좋아해요. 누군가와 함께 있는 시간 자체가 나에게 의미가 돼요.",
+        recs: [{t:"등하교 안전도우미", solo:false}, {t:"급식 도우미", solo:false}, {t:"또래 멘토링", solo:true}, {t:"경로당 말벗 봉사", solo:true}] },
+  PT: { noun: "기획자형", desc: "사람을 위한 아이디어와 프로그램을 만드는 것을 좋아해요. 누군가에게 도움이 될 무언가를 구상할 때 몰입해요.",
+        recs: [{t:"카드뉴스·홍보물 제작", solo:true}, {t:"재능기부 프로그램 설계", solo:true}, {t:"캠페인 기획", solo:false}, {t:"학급 행사 기획", solo:false}] },
+  EA: { noun: "실천가형", desc: "몸으로 움직여 환경과 공간을 바꾸는 것을 좋아해요. 눈에 보이게 달라지는 걸 만들 때 뿌듯함을 느껴요.",
+        recs: [{t:"학교 텃밭 가꾸기", solo:true}, {t:"분리수거 도우미", solo:true}, {t:"환경정화 활동", solo:false}, {t:"유기동물 보호소 봉사", solo:false}] },
+  ET: { noun: "해결사형", desc: "자료를 정리하고 아이디어로 문제를 해결하는 것을 좋아해요. 복잡한 것을 정돈했을 때 만족감을 느껴요.",
+        recs: [{t:"도서관 정리 도우미", solo:true}, {t:"자료 정리 봉사", solo:true}, {t:"재활용 캠페인 포스터 제작", solo:false}, {t:"환경 캠페인 기획", solo:false}] },
+};
+
+const MOD = {
+  DI: { prefix: "묵묵한", desc: "한 가지를 꾸준히, 조용히 파고드는 편이에요. 티내지 않아도 은근히 책임감이 강한 스타일이에요." },
+  DG: { prefix: "다정한", desc: "사람들과 함께 오래도록 마음을 나누는 걸 좋아해요. 관계가 쌓일수록 더 잘하는 타입이에요." },
+  VI: { prefix: "야무진", desc: "혼자서도 빠르고 야무지게 해내는 편이에요. 필요한 순간 스스로 판단해서 움직여요." },
+  VG: { prefix: "발랄한", desc: "여러 사람과 왁자지껄 어울리며 다양한 걸 시도하는 걸 좋아해요. 에너지가 넘치는 편이에요." },
+};
+
+const TAGLINE_PART = {
+  D: "꾸준하게", V: "발빠르게",
+  I: "조용히", G: "함께",
+  P: "사람 곁에서", E: "현장에서",
+  A: "몸으로", T: "머리로",
+};
+
+// ================= State =================
+let order = [];
+let current = 0;
+let scores = { P: 0, E: 0, A: 0, T: 0, D: 0, V: 0, I: 0, G: 0 };
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function startTest() {
+  order = shuffle(QUESTION_BANK.map((_, i) => i));
+  current = 0;
+  scores = { P: 0, E: 0, A: 0, T: 0, D: 0, V: 0, I: 0, G: 0 };
+  showScreen("screen-question");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const qIdx = order[current];
+  const q = QUESTION_BANK[qIdx];
+  document.getElementById("q-tag").textContent = `Q${current + 1} / ${QUESTION_BANK.length}`;
+  document.getElementById("q-axis-label").textContent = q.label + " 성향";
+  document.getElementById("progress-fill").style.width = (current / QUESTION_BANK.length * 100) + "%";
+
+  const optsWrap = document.getElementById("q-options");
+  optsWrap.innerHTML = "";
+  const shuffledOpts = shuffle(q.opts);
+  const letters = ["A", "B"];
+  shuffledOpts.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.innerHTML = `<b>${letters[i]}.</b>${opt.text}`;
+    btn.onclick = () => selectOption(opt.cat);
+    optsWrap.appendChild(btn);
+  });
+}
+
+function selectOption(cat) {
+  scores[cat] = (scores[cat] || 0) + 1;
+  current++;
+  if (current < QUESTION_BANK.length) {
+    renderQuestion();
+  } else {
+    document.getElementById("progress-fill").style.width = "100%";
+    showResult();
+  }
+}
+
+function axisBarRow(leftLabel, rightLabel, leftScore, rightScore) {
+  const total = leftScore + rightScore || 1;
+  const leftPct = Math.round(leftScore / total * 100);
+  const winner = leftScore >= rightScore ? "left" : "right";
+  return `<div class="axis-bar-row">
+    <span class="lbl">${leftLabel}</span>
+    <div class="axis-bar-track">
+      <div class="axis-bar-fill" style="left:0; width:${leftPct}%; background:${winner === 'left' ? 'var(--teal)' : '#D7E4E3'}"></div>
+      <div class="axis-bar-fill" style="right:0; width:${100-leftPct}%; background:${winner === 'right' ? 'var(--coral)' : '#D7E4E3'}"></div>
+    </div>
+    <span class="lbl right">${rightLabel}</span>
+  </div>`;
+}
+
+function showResult() {
+  const axis1 = scores.P >= scores.E ? "P" : "E";
+  const axis2 = scores.A >= scores.T ? "A" : "T";
+  const axis3 = scores.D >= scores.V ? "D" : "V";
+  const axis4 = scores.I >= scores.G ? "I" : "G";
+  const baseCode = axis1 + axis2;
+  const modCode = axis3 + axis4;
+  const fullCode = baseCode + modCode;
+
+  const base = BASE[baseCode];
+  const mod = MOD[modCode];
+
+  document.getElementById("result-badge").textContent = fullCode;
+  document.getElementById("result-badge").style.background = "#028090";
+  document.getElementById("result-name").textContent = mod.prefix + " " + base.noun;
+  document.getElementById("result-tagline").textContent =
+    `"${TAGLINE_PART[axis3]} ${TAGLINE_PART[axis4]}, ${TAGLINE_PART[axis1]} ${TAGLINE_PART[axis2]}"`;
+  document.getElementById("result-desc").textContent = base.desc;
+  document.getElementById("result-mod-desc").textContent = mod.desc;
+
+  document.getElementById("axis-bars").innerHTML =
+    axisBarRow("사람 P", "환경 E", scores.P, scores.E) +
+    axisBarRow("행동 A", "기획 T", scores.A, scores.T) +
+    axisBarRow("헌신 D", "다양 V", scores.D, scores.V) +
+    axisBarRow("개인 I", "함께 G", scores.I, scores.G);
+
+  const recWrap = document.getElementById("result-recs");
+  recWrap.innerHTML = "";
+  const sortedRecs = base.recs.slice().sort((a, b) => {
+    const aMatch = (axis4 === "I" && a.solo) || (axis4 === "G" && !a.solo);
+    const bMatch = (axis4 === "I" && b.solo) || (axis4 === "G" && !b.solo);
+    return (bMatch ? 1 : 0) - (aMatch ? 1 : 0);
+  });
+  sortedRecs.forEach(r => {
+    const li = document.createElement("li");
+    const tag = document.createElement("span");
+    tag.className = "tag " + (r.solo ? "solo" : "group");
+    tag.textContent = r.solo ? "혼자" : "함께";
+    const span = document.createElement("span");
+    span.textContent = r.t;
+    li.appendChild(tag);
+    li.appendChild(span);
+    recWrap.appendChild(li);
+  });
+
+  showScreen("screen-result");
+}
+
+function restart() {
+  showScreen("screen-intro");
+  document.getElementById("progress-fill").style.width = "0%";
+}
+
+function showScreen(id) {
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+</script>
+</body>
+</html>
